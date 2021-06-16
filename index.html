@@ -1,0 +1,1475 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>Analýza dat &amp; Rko</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Petr Bouchal" />
+    <script src="libs/header-attrs/header-attrs.js"></script>
+    <script src="libs/clipboard/clipboard.min.js"></script>
+    <link href="libs/shareon/shareon.min.css" rel="stylesheet" />
+    <script src="libs/shareon/shareon.min.js"></script>
+    <link href="libs/xaringanExtra-shareagain/shareagain.css" rel="stylesheet" />
+    <script src="libs/xaringanExtra-shareagain/shareagain.js"></script>
+    <link href="libs/xaringanExtra-extra-styles/xaringanExtra-extra-styles.css" rel="stylesheet" />
+    <meta name="description" content="Description"/>
+    <meta name="generator" content="xaringan and remark.js"/>
+    <meta name="github-repo" content="petrbouchal/xxx"/>
+    <meta name="twitter:title" content="Title"/>
+    <meta name="twitter:description" content="Description"/>
+    <meta name="twitter:url" content="https://petrbouchal.xyz/cpr2021"/>
+    <meta name="twitter:image:src" content="https://petrbouchal.xyz/cpr2021/twitter_card.png"/>
+    <meta name="twitter:image:alt" content="social alt"/>
+    <meta name="twitter:card" content="summary_large_image"/>
+    <meta name="twitter:creator" content="@petrbouchal"/>
+    <meta name="twitter:site" content="@petrbouchal"/>
+    <meta property="og:title" content="Title"/>
+    <meta property="og:description" content="Description"/>
+    <meta property="og:url" content="https://petrbouchal.xyz/cpr2021"/>
+    <meta property="og:image" content="https://petrbouchal.xyz/cpr2021/twitter_card.png"/>
+    <meta property="og:image:alt" content="social alt"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:locale" content="cs_CZ"/>
+    <meta property="article:author" content="Petr Bouchal"/>
+    <link rel="stylesheet" href="xaringan-themer.css" type="text/css" />
+    <link rel="stylesheet" href="slides.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: bottom, left, inverse, title-slide
+
+# Analýza dat &amp; Rko
+## Rychlý přehled pro České priority
+### Petr Bouchal
+### 16. června 2021
+
+---
+
+
+
+
+
+
+
+
+
+
+
+
+
+class: left, middle, inverse
+
+# Analýza dat
+
+---
+class: left, middle, large
+
+ 1\. Data Science &amp; co
+
+--
+
+ 2\. klikání &lt;=&gt; kód
+
+---
+class: large
+
+# Pojmy
+
+.pull-right[
+
+Data Science
+
+ML/AI/...
+
+Data Engineering
+
+]
+
+.pull-left[
+
+Data??
+
+analýza dat
+
+statistika
+
+statistické učení
+
+]
+
+---
+class: large
+
+# Kód &lt;=&gt; Point-and-click
+
+Excel: data + výpočet + výstup na jednom místě
+
+Excel != databáze != data pipeline tool
+
+Tableau etc. užitečné pro interaktivní exploraci + prezentacei dat (svět BI)
+
+Tyto nástroje jsou s code-based nástroji (R, Python) komplementární
+
+---
+class: large
+
+# Kdy se pouštět do programování s daty
+
+.pull-left[
+- opakované analýzy
+- replikace, transparentnost
+- snadné úpravy kroků
+- flexibilita výstupů
+]
+
+.pull-right[
+- komplexní metody
+- více datových zdrojů
+- složitá data (API, databáze)
+
+]
+
+---
+class: large
+
+# R ?? Python
+
+.pull-left[
+## Python
+
+general purpose
+od programátorů
+pro programátory
+"blíž železu"
+
+]
+
+.pull-left[
+## R
+
+na data
+od statistiků
+používá ho ledaskdo
+méně intuitivní jazyk (ale lepší se to)
+
+]
+
+---
+class: center, middle, inverse
+
+# R: rychlý přehled
+
+---
+
+class: center, middle, large
+
+
+[petrbouchal.xyz/cpr2021](https://petrbouchal.xyz/xxx)
+
+---
+
+class: center, middle, large
+
+# Ukázka práce s tabulkovými daty
+
+---
+
+
+
+
+count: false
+ 
+
+.panel1-tidyverse-priklad-auto[
+
+```r
+*gdta
+```
+]
+ 
+.panel2-tidyverse-priklad-auto[
+
+```
+# A tibble: 147,396 x 5
+   sub_region_1 kategorie             zmena date       country_region
+   &lt;chr&gt;        &lt;chr&gt;                 &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;         
+ 1 &lt;NA&gt;         retail_and_recreation    13 2020-02-15 Czechia       
+ 2 &lt;NA&gt;         grocery_and_pharmacy      8 2020-02-15 Czechia       
+ 3 &lt;NA&gt;         parks                    37 2020-02-15 Czechia       
+ 4 &lt;NA&gt;         transit_stations         14 2020-02-15 Czechia       
+ 5 &lt;NA&gt;         workplaces                3 2020-02-15 Czechia       
+ 6 &lt;NA&gt;         residential              -2 2020-02-15 Czechia       
+ 7 &lt;NA&gt;         retail_and_recreation    12 2020-02-16 Czechia       
+ 8 &lt;NA&gt;         grocery_and_pharmacy      8 2020-02-16 Czechia       
+ 9 &lt;NA&gt;         parks                    28 2020-02-16 Czechia       
+10 &lt;NA&gt;         transit_stations          9 2020-02-16 Czechia       
+# … with 147,386 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tidyverse-priklad-auto[
+
+```r
+gdta %&gt;%
+* select(-country_region)
+```
+]
+ 
+.panel2-tidyverse-priklad-auto[
+
+```
+# A tibble: 147,396 x 4
+   sub_region_1 kategorie             zmena date      
+   &lt;chr&gt;        &lt;chr&gt;                 &lt;dbl&gt; &lt;date&gt;    
+ 1 &lt;NA&gt;         retail_and_recreation    13 2020-02-15
+ 2 &lt;NA&gt;         grocery_and_pharmacy      8 2020-02-15
+ 3 &lt;NA&gt;         parks                    37 2020-02-15
+ 4 &lt;NA&gt;         transit_stations         14 2020-02-15
+ 5 &lt;NA&gt;         workplaces                3 2020-02-15
+ 6 &lt;NA&gt;         residential              -2 2020-02-15
+ 7 &lt;NA&gt;         retail_and_recreation    12 2020-02-16
+ 8 &lt;NA&gt;         grocery_and_pharmacy      8 2020-02-16
+ 9 &lt;NA&gt;         parks                    28 2020-02-16
+10 &lt;NA&gt;         transit_stations          9 2020-02-16
+# … with 147,386 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tidyverse-priklad-auto[
+
+```r
+gdta %&gt;%
+  select(-country_region) %&gt;%
+* rename(kraj_nazev = sub_region_1)
+```
+]
+ 
+.panel2-tidyverse-priklad-auto[
+
+```
+# A tibble: 147,396 x 4
+   kraj_nazev kategorie             zmena date      
+   &lt;chr&gt;      &lt;chr&gt;                 &lt;dbl&gt; &lt;date&gt;    
+ 1 &lt;NA&gt;       retail_and_recreation    13 2020-02-15
+ 2 &lt;NA&gt;       grocery_and_pharmacy      8 2020-02-15
+ 3 &lt;NA&gt;       parks                    37 2020-02-15
+ 4 &lt;NA&gt;       transit_stations         14 2020-02-15
+ 5 &lt;NA&gt;       workplaces                3 2020-02-15
+ 6 &lt;NA&gt;       residential              -2 2020-02-15
+ 7 &lt;NA&gt;       retail_and_recreation    12 2020-02-16
+ 8 &lt;NA&gt;       grocery_and_pharmacy      8 2020-02-16
+ 9 &lt;NA&gt;       parks                    28 2020-02-16
+10 &lt;NA&gt;       transit_stations          9 2020-02-16
+# … with 147,386 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tidyverse-priklad-auto[
+
+```r
+gdta %&gt;%
+  select(-country_region) %&gt;%
+  rename(kraj_nazev = sub_region_1) %&gt;%
+* filter(date &gt; "2020-10-01")
+```
+]
+ 
+.panel2-tidyverse-priklad-auto[
+
+```
+# A tibble: 23,478 x 4
+   kraj_nazev kategorie             zmena date      
+   &lt;chr&gt;      &lt;chr&gt;                 &lt;dbl&gt; &lt;date&gt;    
+ 1 &lt;NA&gt;       retail_and_recreation   -10 2020-10-02
+ 2 &lt;NA&gt;       grocery_and_pharmacy     13 2020-10-02
+ 3 &lt;NA&gt;       parks                    26 2020-10-02
+ 4 &lt;NA&gt;       transit_stations         -2 2020-10-02
+ 5 &lt;NA&gt;       workplaces               -7 2020-10-02
+ 6 &lt;NA&gt;       residential               0 2020-10-02
+ 7 &lt;NA&gt;       retail_and_recreation   -10 2020-10-03
+ 8 &lt;NA&gt;       grocery_and_pharmacy      8 2020-10-03
+ 9 &lt;NA&gt;       parks                    66 2020-10-03
+10 &lt;NA&gt;       transit_stations          1 2020-10-03
+# … with 23,468 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tidyverse-priklad-auto[
+
+```r
+gdta %&gt;%
+  select(-country_region) %&gt;%
+  rename(kraj_nazev = sub_region_1) %&gt;%
+  filter(date &gt; "2020-10-01") %&gt;%
+* mutate(zmena_dec = zmena/100)
+```
+]
+ 
+.panel2-tidyverse-priklad-auto[
+
+```
+# A tibble: 23,478 x 5
+   kraj_nazev kategorie             zmena date       zmena_dec
+   &lt;chr&gt;      &lt;chr&gt;                 &lt;dbl&gt; &lt;date&gt;         &lt;dbl&gt;
+ 1 &lt;NA&gt;       retail_and_recreation   -10 2020-10-02     -0.1 
+ 2 &lt;NA&gt;       grocery_and_pharmacy     13 2020-10-02      0.13
+ 3 &lt;NA&gt;       parks                    26 2020-10-02      0.26
+ 4 &lt;NA&gt;       transit_stations         -2 2020-10-02     -0.02
+ 5 &lt;NA&gt;       workplaces               -7 2020-10-02     -0.07
+ 6 &lt;NA&gt;       residential               0 2020-10-02      0   
+ 7 &lt;NA&gt;       retail_and_recreation   -10 2020-10-03     -0.1 
+ 8 &lt;NA&gt;       grocery_and_pharmacy      8 2020-10-03      0.08
+ 9 &lt;NA&gt;       parks                    66 2020-10-03      0.66
+10 &lt;NA&gt;       transit_stations          1 2020-10-03      0.01
+# … with 23,468 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tidyverse-priklad-auto[
+
+```r
+gdta %&gt;%
+  select(-country_region) %&gt;%
+  rename(kraj_nazev = sub_region_1) %&gt;%
+  filter(date &gt; "2020-10-01") %&gt;%
+  mutate(zmena_dec = zmena/100) %&gt;%
+* select(-zmena)
+```
+]
+ 
+.panel2-tidyverse-priklad-auto[
+
+```
+# A tibble: 23,478 x 4
+   kraj_nazev kategorie             date       zmena_dec
+   &lt;chr&gt;      &lt;chr&gt;                 &lt;date&gt;         &lt;dbl&gt;
+ 1 &lt;NA&gt;       retail_and_recreation 2020-10-02     -0.1 
+ 2 &lt;NA&gt;       grocery_and_pharmacy  2020-10-02      0.13
+ 3 &lt;NA&gt;       parks                 2020-10-02      0.26
+ 4 &lt;NA&gt;       transit_stations      2020-10-02     -0.02
+ 5 &lt;NA&gt;       workplaces            2020-10-02     -0.07
+ 6 &lt;NA&gt;       residential           2020-10-02      0   
+ 7 &lt;NA&gt;       retail_and_recreation 2020-10-03     -0.1 
+ 8 &lt;NA&gt;       grocery_and_pharmacy  2020-10-03      0.08
+ 9 &lt;NA&gt;       parks                 2020-10-03      0.66
+10 &lt;NA&gt;       transit_stations      2020-10-03      0.01
+# … with 23,468 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tidyverse-priklad-auto[
+
+```r
+gdta %&gt;%
+  select(-country_region) %&gt;%
+  rename(kraj_nazev = sub_region_1) %&gt;%
+  filter(date &gt; "2020-10-01") %&gt;%
+  mutate(zmena_dec = zmena/100) %&gt;%
+  select(-zmena) %&gt;%
+* group_by(kraj_nazev, kategorie)
+```
+]
+ 
+.panel2-tidyverse-priklad-auto[
+
+```
+# A tibble: 23,478 x 4
+# Groups:   kraj_nazev, kategorie [90]
+   kraj_nazev kategorie             date       zmena_dec
+   &lt;chr&gt;      &lt;chr&gt;                 &lt;date&gt;         &lt;dbl&gt;
+ 1 &lt;NA&gt;       retail_and_recreation 2020-10-02     -0.1 
+ 2 &lt;NA&gt;       grocery_and_pharmacy  2020-10-02      0.13
+ 3 &lt;NA&gt;       parks                 2020-10-02      0.26
+ 4 &lt;NA&gt;       transit_stations      2020-10-02     -0.02
+ 5 &lt;NA&gt;       workplaces            2020-10-02     -0.07
+ 6 &lt;NA&gt;       residential           2020-10-02      0   
+ 7 &lt;NA&gt;       retail_and_recreation 2020-10-03     -0.1 
+ 8 &lt;NA&gt;       grocery_and_pharmacy  2020-10-03      0.08
+ 9 &lt;NA&gt;       parks                 2020-10-03      0.66
+10 &lt;NA&gt;       transit_stations      2020-10-03      0.01
+# … with 23,468 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tidyverse-priklad-auto[
+
+```r
+gdta %&gt;%
+  select(-country_region) %&gt;%
+  rename(kraj_nazev = sub_region_1) %&gt;%
+  filter(date &gt; "2020-10-01") %&gt;%
+  mutate(zmena_dec = zmena/100) %&gt;%
+  select(-zmena) %&gt;%
+  group_by(kraj_nazev, kategorie) %&gt;%
+* mutate(zmena_min = min(zmena_dec, na.rm = T),
+*        zmena_max = max(zmena_dec, na.rm = T))
+```
+]
+ 
+.panel2-tidyverse-priklad-auto[
+
+```
+# A tibble: 23,478 x 6
+# Groups:   kraj_nazev, kategorie [90]
+   kraj_nazev kategorie             date       zmena_dec zmena_min zmena_max
+   &lt;chr&gt;      &lt;chr&gt;                 &lt;date&gt;         &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+ 1 &lt;NA&gt;       retail_and_recreation 2020-10-02     -0.1      -0.79     -0.03
+ 2 &lt;NA&gt;       grocery_and_pharmacy  2020-10-02      0.13     -0.85      0.27
+ 3 &lt;NA&gt;       parks                 2020-10-02      0.26     -0.36      0.66
+ 4 &lt;NA&gt;       transit_stations      2020-10-02     -0.02     -0.56      0.01
+ 5 &lt;NA&gt;       workplaces            2020-10-02     -0.07     -0.74      0.05
+ 6 &lt;NA&gt;       residential           2020-10-02      0        -0.02      0.26
+ 7 &lt;NA&gt;       retail_and_recreation 2020-10-03     -0.1      -0.79     -0.03
+ 8 &lt;NA&gt;       grocery_and_pharmacy  2020-10-03      0.08     -0.85      0.27
+ 9 &lt;NA&gt;       parks                 2020-10-03      0.66     -0.36      0.66
+10 &lt;NA&gt;       transit_stations      2020-10-03      0.01     -0.56      0.01
+# … with 23,468 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tidyverse-priklad-auto[
+
+```r
+gdta %&gt;%
+  select(-country_region) %&gt;%
+  rename(kraj_nazev = sub_region_1) %&gt;%
+  filter(date &gt; "2020-10-01") %&gt;%
+  mutate(zmena_dec = zmena/100) %&gt;%
+  select(-zmena) %&gt;%
+  group_by(kraj_nazev, kategorie) %&gt;%
+  mutate(zmena_min = min(zmena_dec, na.rm = T),
+         zmena_max = max(zmena_dec, na.rm = T)) %&gt;%
+* summarise(zmena_p = mean(zmena_dec, na.rm = T))
+```
+]
+ 
+.panel2-tidyverse-priklad-auto[
+
+```
+# A tibble: 90 x 3
+# Groups:   kraj_nazev [15]
+   kraj_nazev              kategorie               zmena_p
+   &lt;chr&gt;                   &lt;chr&gt;                     &lt;dbl&gt;
+ 1 Central Bohemian Region grocery_and_pharmacy   0.0576  
+ 2 Central Bohemian Region parks                  0.237   
+ 3 Central Bohemian Region residential            0.107   
+ 4 Central Bohemian Region retail_and_recreation -0.272   
+ 5 Central Bohemian Region transit_stations      -0.0555  
+ 6 Central Bohemian Region workplaces            -0.200   
+ 7 Hradec Králové Region   grocery_and_pharmacy   0.000736
+ 8 Hradec Králové Region   parks                  0.156   
+ 9 Hradec Králové Region   residential            0.0964  
+10 Hradec Králové Region   retail_and_recreation -0.364   
+# … with 80 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tidyverse-priklad-auto[
+
+```r
+gdta %&gt;%
+  select(-country_region) %&gt;%
+  rename(kraj_nazev = sub_region_1) %&gt;%
+  filter(date &gt; "2020-10-01") %&gt;%
+  mutate(zmena_dec = zmena/100) %&gt;%
+  select(-zmena) %&gt;%
+  group_by(kraj_nazev, kategorie) %&gt;%
+  mutate(zmena_min = min(zmena_dec, na.rm = T),
+         zmena_max = max(zmena_dec, na.rm = T)) %&gt;%
+  summarise(zmena_p = mean(zmena_dec, na.rm = T)) %&gt;%
+* ungroup()
+```
+]
+ 
+.panel2-tidyverse-priklad-auto[
+
+```
+# A tibble: 90 x 3
+   kraj_nazev              kategorie               zmena_p
+   &lt;chr&gt;                   &lt;chr&gt;                     &lt;dbl&gt;
+ 1 Central Bohemian Region grocery_and_pharmacy   0.0576  
+ 2 Central Bohemian Region parks                  0.237   
+ 3 Central Bohemian Region residential            0.107   
+ 4 Central Bohemian Region retail_and_recreation -0.272   
+ 5 Central Bohemian Region transit_stations      -0.0555  
+ 6 Central Bohemian Region workplaces            -0.200   
+ 7 Hradec Králové Region   grocery_and_pharmacy   0.000736
+ 8 Hradec Králové Region   parks                  0.156   
+ 9 Hradec Králové Region   residential            0.0964  
+10 Hradec Králové Region   retail_and_recreation -0.364   
+# … with 80 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tidyverse-priklad-auto[
+
+```r
+gdta %&gt;%
+  select(-country_region) %&gt;%
+  rename(kraj_nazev = sub_region_1) %&gt;%
+  filter(date &gt; "2020-10-01") %&gt;%
+  mutate(zmena_dec = zmena/100) %&gt;%
+  select(-zmena) %&gt;%
+  group_by(kraj_nazev, kategorie) %&gt;%
+  mutate(zmena_min = min(zmena_dec, na.rm = T),
+         zmena_max = max(zmena_dec, na.rm = T)) %&gt;%
+  summarise(zmena_p = mean(zmena_dec, na.rm = T)) %&gt;%
+  ungroup() %&gt;%
+* arrange(kategorie, zmena_p)
+```
+]
+ 
+.panel2-tidyverse-priklad-auto[
+
+```
+# A tibble: 90 x 3
+   kraj_nazev               kategorie              zmena_p
+   &lt;chr&gt;                    &lt;chr&gt;                    &lt;dbl&gt;
+ 1 Prague                   grocery_and_pharmacy -0.0381  
+ 2 Zlín Region              grocery_and_pharmacy -0.0257  
+ 3 Karlovy Vary Region      grocery_and_pharmacy -0.00262 
+ 4 Hradec Králové Region    grocery_and_pharmacy  0.000736
+ 5 &lt;NA&gt;                     grocery_and_pharmacy  0.00651 
+ 6 South Bohemian Region    grocery_and_pharmacy  0.0154  
+ 7 Moravian-Silesian Region grocery_and_pharmacy  0.0190  
+ 8 Olomouc Region           grocery_and_pharmacy  0.0287  
+ 9 Liberec Region           grocery_and_pharmacy  0.0312  
+10 Pardubice Region         grocery_and_pharmacy  0.0433  
+# … with 80 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tidyverse-priklad-auto[
+
+```r
+gdta %&gt;%
+  select(-country_region) %&gt;%
+  rename(kraj_nazev = sub_region_1) %&gt;%
+  filter(date &gt; "2020-10-01") %&gt;%
+  mutate(zmena_dec = zmena/100) %&gt;%
+  select(-zmena) %&gt;%
+  group_by(kraj_nazev, kategorie) %&gt;%
+  mutate(zmena_min = min(zmena_dec, na.rm = T),
+         zmena_max = max(zmena_dec, na.rm = T)) %&gt;%
+  summarise(zmena_p = mean(zmena_dec, na.rm = T)) %&gt;%
+  ungroup() %&gt;%
+  arrange(kategorie, zmena_p) %&gt;%
+* arrange(kategorie, desc(zmena_p))
+```
+]
+ 
+.panel2-tidyverse-priklad-auto[
+
+```
+# A tibble: 90 x 3
+   kraj_nazev               kategorie            zmena_p
+   &lt;chr&gt;                    &lt;chr&gt;                  &lt;dbl&gt;
+ 1 South Moravian Region    grocery_and_pharmacy  0.0658
+ 2 Ústí nad Labem Region    grocery_and_pharmacy  0.0599
+ 3 Central Bohemian Region  grocery_and_pharmacy  0.0576
+ 4 Vysočina Region          grocery_and_pharmacy  0.0516
+ 5 Plzeň Region             grocery_and_pharmacy  0.0445
+ 6 Pardubice Region         grocery_and_pharmacy  0.0433
+ 7 Liberec Region           grocery_and_pharmacy  0.0312
+ 8 Olomouc Region           grocery_and_pharmacy  0.0287
+ 9 Moravian-Silesian Region grocery_and_pharmacy  0.0190
+10 South Bohemian Region    grocery_and_pharmacy  0.0154
+# … with 80 more rows
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tidyverse-priklad-auto[
+
+```r
+gdta %&gt;%
+  select(-country_region) %&gt;%
+  rename(kraj_nazev = sub_region_1) %&gt;%
+  filter(date &gt; "2020-10-01") %&gt;%
+  mutate(zmena_dec = zmena/100) %&gt;%
+  select(-zmena) %&gt;%
+  group_by(kraj_nazev, kategorie) %&gt;%
+  mutate(zmena_min = min(zmena_dec, na.rm = T),
+         zmena_max = max(zmena_dec, na.rm = T)) %&gt;%
+  summarise(zmena_p = mean(zmena_dec, na.rm = T)) %&gt;%
+  ungroup() %&gt;%
+  arrange(kategorie, zmena_p) %&gt;%
+  arrange(kategorie, desc(zmena_p)) %&gt;%
+* filter(kategorie == "workplaces")
+```
+]
+ 
+.panel2-tidyverse-priklad-auto[
+
+```
+# A tibble: 15 x 3
+   kraj_nazev               kategorie  zmena_p
+   &lt;chr&gt;                    &lt;chr&gt;        &lt;dbl&gt;
+ 1 Karlovy Vary Region      workplaces  -0.167
+ 2 Ústí nad Labem Region    workplaces  -0.177
+ 3 Pardubice Region         workplaces  -0.179
+ 4 Olomouc Region           workplaces  -0.182
+ 5 Plzeň Region             workplaces  -0.183
+ 6 Liberec Region           workplaces  -0.19 
+ 7 Zlín Region              workplaces  -0.193
+ 8 South Bohemian Region    workplaces  -0.195
+ 9 Vysočina Region          workplaces  -0.198
+10 Moravian-Silesian Region workplaces  -0.200
+11 Central Bohemian Region  workplaces  -0.200
+12 Hradec Králové Region    workplaces  -0.203
+13 South Moravian Region    workplaces  -0.224
+14 &lt;NA&gt;                     workplaces  -0.229
+15 Prague                   workplaces  -0.363
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tidyverse-priklad-auto[
+
+```r
+gdta %&gt;%
+  select(-country_region) %&gt;%
+  rename(kraj_nazev = sub_region_1) %&gt;%
+  filter(date &gt; "2020-10-01") %&gt;%
+  mutate(zmena_dec = zmena/100) %&gt;%
+  select(-zmena) %&gt;%
+  group_by(kraj_nazev, kategorie) %&gt;%
+  mutate(zmena_min = min(zmena_dec, na.rm = T),
+         zmena_max = max(zmena_dec, na.rm = T)) %&gt;%
+  summarise(zmena_p = mean(zmena_dec, na.rm = T)) %&gt;%
+  ungroup() %&gt;%
+  arrange(kategorie, zmena_p) %&gt;%
+  arrange(kategorie, desc(zmena_p)) %&gt;%
+  filter(kategorie == "workplaces") %&gt;%
+* replace_na(list(kraj_nazev = "Celá ČR"))
+```
+]
+ 
+.panel2-tidyverse-priklad-auto[
+
+```
+# A tibble: 15 x 3
+   kraj_nazev               kategorie  zmena_p
+   &lt;chr&gt;                    &lt;chr&gt;        &lt;dbl&gt;
+ 1 Karlovy Vary Region      workplaces  -0.167
+ 2 Ústí nad Labem Region    workplaces  -0.177
+ 3 Pardubice Region         workplaces  -0.179
+ 4 Olomouc Region           workplaces  -0.182
+ 5 Plzeň Region             workplaces  -0.183
+ 6 Liberec Region           workplaces  -0.19 
+ 7 Zlín Region              workplaces  -0.193
+ 8 South Bohemian Region    workplaces  -0.195
+ 9 Vysočina Region          workplaces  -0.198
+10 Moravian-Silesian Region workplaces  -0.200
+11 Central Bohemian Region  workplaces  -0.200
+12 Hradec Králové Region    workplaces  -0.203
+13 South Moravian Region    workplaces  -0.224
+14 Celá ČR                  workplaces  -0.229
+15 Prague                   workplaces  -0.363
+```
+]
+
+---
+count: false
+ 
+
+.panel1-tidyverse-priklad-auto[
+
+```r
+gdta %&gt;%
+  select(-country_region) %&gt;%
+  rename(kraj_nazev = sub_region_1) %&gt;%
+  filter(date &gt; "2020-10-01") %&gt;%
+  mutate(zmena_dec = zmena/100) %&gt;%
+  select(-zmena) %&gt;%
+  group_by(kraj_nazev, kategorie) %&gt;%
+  mutate(zmena_min = min(zmena_dec, na.rm = T),
+         zmena_max = max(zmena_dec, na.rm = T)) %&gt;%
+  summarise(zmena_p = mean(zmena_dec, na.rm = T)) %&gt;%
+  ungroup() %&gt;%
+  arrange(kategorie, zmena_p) %&gt;%
+  arrange(kategorie, desc(zmena_p)) %&gt;%
+  filter(kategorie == "workplaces") %&gt;%
+  replace_na(list(kraj_nazev = "Celá ČR")) %&gt;%
+* gt::gt()
+```
+]
+ 
+.panel2-tidyverse-priklad-auto[
+<div id="ejzwzcpfvg" style="overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>html {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Helvetica Neue', 'Fira Sans', 'Droid Sans', Arial, sans-serif;
+}
+
+#ejzwzcpfvg .gt_table {
+  display: table;
+  border-collapse: collapse;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: normal;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#ejzwzcpfvg .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ejzwzcpfvg .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#ejzwzcpfvg .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 0;
+  padding-bottom: 4px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#ejzwzcpfvg .gt_bottom_border {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ejzwzcpfvg .gt_col_headings {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#ejzwzcpfvg .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#ejzwzcpfvg .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#ejzwzcpfvg .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#ejzwzcpfvg .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#ejzwzcpfvg .gt_column_spanner {
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#ejzwzcpfvg .gt_group_heading {
+  padding: 8px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ejzwzcpfvg .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#ejzwzcpfvg .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#ejzwzcpfvg .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#ejzwzcpfvg .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: solid;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#ejzwzcpfvg .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: solid;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 12px;
+}
+
+#ejzwzcpfvg .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ejzwzcpfvg .gt_first_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+}
+
+#ejzwzcpfvg .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#ejzwzcpfvg .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: double;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#ejzwzcpfvg .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#ejzwzcpfvg .gt_table_body {
+  border-top-style: solid;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: solid;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#ejzwzcpfvg .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ejzwzcpfvg .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ejzwzcpfvg .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#ejzwzcpfvg .gt_sourcenote {
+  font-size: 90%;
+  padding: 4px;
+}
+
+#ejzwzcpfvg .gt_left {
+  text-align: left;
+}
+
+#ejzwzcpfvg .gt_center {
+  text-align: center;
+}
+
+#ejzwzcpfvg .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#ejzwzcpfvg .gt_font_normal {
+  font-weight: normal;
+}
+
+#ejzwzcpfvg .gt_font_bold {
+  font-weight: bold;
+}
+
+#ejzwzcpfvg .gt_font_italic {
+  font-style: italic;
+}
+
+#ejzwzcpfvg .gt_super {
+  font-size: 65%;
+}
+
+#ejzwzcpfvg .gt_footnote_marks {
+  font-style: italic;
+  font-weight: normal;
+  font-size: 65%;
+}
+</style>
+<table class="gt_table">
+  
+  <thead class="gt_col_headings">
+    <tr>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">kraj_nazev</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1">kategorie</th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_right" rowspan="1" colspan="1">zmena_p</th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td class="gt_row gt_left">Karlovy Vary Region</td>
+<td class="gt_row gt_left">workplaces</td>
+<td class="gt_row gt_right">-0.1673256</td></tr>
+    <tr><td class="gt_row gt_left">Ústí nad Labem Region</td>
+<td class="gt_row gt_left">workplaces</td>
+<td class="gt_row gt_right">-0.1773547</td></tr>
+    <tr><td class="gt_row gt_left">Pardubice Region</td>
+<td class="gt_row gt_left">workplaces</td>
+<td class="gt_row gt_right">-0.1793488</td></tr>
+    <tr><td class="gt_row gt_left">Olomouc Region</td>
+<td class="gt_row gt_left">workplaces</td>
+<td class="gt_row gt_right">-0.1820543</td></tr>
+    <tr><td class="gt_row gt_left">Plzeň Region</td>
+<td class="gt_row gt_left">workplaces</td>
+<td class="gt_row gt_right">-0.1829360</td></tr>
+    <tr><td class="gt_row gt_left">Liberec Region</td>
+<td class="gt_row gt_left">workplaces</td>
+<td class="gt_row gt_right">-0.1900000</td></tr>
+    <tr><td class="gt_row gt_left">Zlín Region</td>
+<td class="gt_row gt_left">workplaces</td>
+<td class="gt_row gt_right">-0.1933023</td></tr>
+    <tr><td class="gt_row gt_left">South Bohemian Region</td>
+<td class="gt_row gt_left">workplaces</td>
+<td class="gt_row gt_right">-0.1953779</td></tr>
+    <tr><td class="gt_row gt_left">Vysočina Region</td>
+<td class="gt_row gt_left">workplaces</td>
+<td class="gt_row gt_right">-0.1976357</td></tr>
+    <tr><td class="gt_row gt_left">Moravian-Silesian Region</td>
+<td class="gt_row gt_left">workplaces</td>
+<td class="gt_row gt_right">-0.1996013</td></tr>
+    <tr><td class="gt_row gt_left">Central Bohemian Region</td>
+<td class="gt_row gt_left">workplaces</td>
+<td class="gt_row gt_right">-0.2003936</td></tr>
+    <tr><td class="gt_row gt_left">Hradec Králové Region</td>
+<td class="gt_row gt_left">workplaces</td>
+<td class="gt_row gt_right">-0.2026357</td></tr>
+    <tr><td class="gt_row gt_left">South Moravian Region</td>
+<td class="gt_row gt_left">workplaces</td>
+<td class="gt_row gt_right">-0.2244767</td></tr>
+    <tr><td class="gt_row gt_left">Celá ČR</td>
+<td class="gt_row gt_left">workplaces</td>
+<td class="gt_row gt_right">-0.2293023</td></tr>
+    <tr><td class="gt_row gt_left">Prague</td>
+<td class="gt_row gt_left">workplaces</td>
+<td class="gt_row gt_right">-0.3634884</td></tr>
+  </tbody>
+  
+  
+</table>
+</div>
+]
+
+&lt;style&gt;
+.panel1-tidyverse-priklad-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-tidyverse-priklad-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-tidyverse-priklad-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+---
+class: left, middle, large
+
+# Ukázka vizualizace dat
+
+
+
+---
+
+
+count: false
+ 
+
+.panel1-ggplot-priklad-auto[
+
+```r
+*ggplot(gdta_rij,
+*      aes(x = date, y = zmena))
+```
+]
+ 
+.panel2-ggplot-priklad-auto[
+&lt;img src="index_files/figure-html/ggplot-priklad_auto_01_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ggplot-priklad-auto[
+
+```r
+ggplot(gdta_rij,
+       aes(x = date, y = zmena)) +
+* geom_line(aes(colour = kategorie),
+*           size = .5)
+```
+]
+ 
+.panel2-ggplot-priklad-auto[
+&lt;img src="index_files/figure-html/ggplot-priklad_auto_02_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ggplot-priklad-auto[
+
+```r
+ggplot(gdta_rij,
+       aes(x = date, y = zmena)) +
+  geom_line(aes(colour = kategorie),
+            size = .5) +
+* facet_wrap(vars(kategorie))
+```
+]
+ 
+.panel2-ggplot-priklad-auto[
+&lt;img src="index_files/figure-html/ggplot-priklad_auto_03_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ggplot-priklad-auto[
+
+```r
+ggplot(gdta_rij,
+       aes(x = date, y = zmena)) +
+  geom_line(aes(colour = kategorie),
+            size = .5) +
+  facet_wrap(vars(kategorie)) +
+* geom_smooth(aes(colour = kategorie))
+```
+]
+ 
+.panel2-ggplot-priklad-auto[
+&lt;img src="index_files/figure-html/ggplot-priklad_auto_04_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ggplot-priklad-auto[
+
+```r
+ggplot(gdta_rij,
+       aes(x = date, y = zmena)) +
+  geom_line(aes(colour = kategorie),
+            size = .5) +
+  facet_wrap(vars(kategorie)) +
+  geom_smooth(aes(colour = kategorie)) +
+* scale_colour_brewer(palette = "Set1")
+```
+]
+ 
+.panel2-ggplot-priklad-auto[
+&lt;img src="index_files/figure-html/ggplot-priklad_auto_05_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ggplot-priklad-auto[
+
+```r
+ggplot(gdta_rij,
+       aes(x = date, y = zmena)) +
+  geom_line(aes(colour = kategorie),
+            size = .5) +
+  facet_wrap(vars(kategorie)) +
+  geom_smooth(aes(colour = kategorie)) +
+  scale_colour_brewer(palette = "Set1") +
+* theme(
+*   panel.background = element_rect(fill = "grey95"),
+*   legend.position = "none"
+*   )
+```
+]
+ 
+.panel2-ggplot-priklad-auto[
+&lt;img src="index_files/figure-html/ggplot-priklad_auto_06_output-1.png" width="504" /&gt;
+]
+
+---
+count: false
+ 
+
+.panel1-ggplot-priklad-auto[
+
+```r
+ggplot(gdta_rij,
+       aes(x = date, y = zmena)) +
+  geom_line(aes(colour = kategorie),
+            size = .5) +
+  facet_wrap(vars(kategorie)) +
+  geom_smooth(aes(colour = kategorie)) +
+  scale_colour_brewer(palette = "Set1") +
+  theme(
+    panel.background = element_rect(fill = "grey95"),
+    legend.position = "none"
+    ) +
+* labs(
+*   title = "Aktivita podle krajů a typu míst",
+*   x = NULL,
+*   subtitle = "Změna proti normálnímu stavu",
+*   y = NULL
+*   )
+```
+]
+ 
+.panel2-ggplot-priklad-auto[
+&lt;img src="index_files/figure-html/ggplot-priklad_auto_07_output-1.png" width="504" /&gt;
+]
+
+&lt;style&gt;
+.panel1-ggplot-priklad-auto {
+  color: black;
+  width: 38.6060606060606%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel2-ggplot-priklad-auto {
+  color: black;
+  width: 59.3939393939394%;
+  hight: 32%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+.panel3-ggplot-priklad-auto {
+  color: black;
+  width: NA%;
+  hight: 33%;
+  float: left;
+  padding-left: 1%;
+  font-size: 80%
+}
+&lt;/style&gt;
+
+
+
+
+---
+
+class: inverse, bottom, right, large
+layout: false
+
+&lt;a href="https://twitter.com/petrbouchal"&gt;<svg aria-hidden="true" role="img" viewBox="0 0 512 512" style="height:1em;width:1em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:white;overflow:visible;position:relative;"><path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/></svg>&lt;/a&gt; &lt;a href="https://github.com/petrbouchal"&gt;<svg aria-hidden="true" role="img" viewBox="0 0 496 512" style="height:1em;width:0.97em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:white;overflow:visible;position:relative;"><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>&lt;/a&gt; &lt;a href="https://linkedin.com/in/petrbouchal"&gt;<svg aria-hidden="true" role="img" viewBox="0 0 448 512" style="height:1em;width:0.88em;vertical-align:-0.125em;margin-left:auto;margin-right:auto;font-size:inherit;fill:white;overflow:visible;position:relative;"><path d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"/></svg>&lt;/a&gt; petrbouchal  
+[petrbouchal.xyz](https://petrbouchal.xyz)  
+pbouchal@gmail.com
+
+
+
+
+
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="macros.js"></script>
+<script>var slideshow = remark.create({
+"ratio": "16:9",
+"slideNumberFormat": "",
+"highlightStyle": "github",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+  </body>
+</html>
