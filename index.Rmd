@@ -168,7 +168,7 @@ class: large
 .pull-right[
 - komplexní metody
 - více datových zdrojů, integrace
-- složitá data (API, databáze*)
+- složitá data (API, databáze, netabulková data)
 
 ]
 
