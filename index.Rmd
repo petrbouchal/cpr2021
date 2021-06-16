@@ -118,16 +118,6 @@ class: large
 
 # Pojmy
 
-.pull-right[
-
-Data Science
-
-ML/AI/...
-
-Data Engineering
-
-]
-
 .pull-left[
 
 Data??
@@ -139,6 +129,17 @@ statistika
 statistické učení
 
 ]
+
+.pull-right[
+
+Data Science
+
+ML/AI/...
+
+Data Engineering
+
+]
+
 
 ---
 class: large
