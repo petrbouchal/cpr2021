@@ -173,28 +173,34 @@ class: large
 ]
 
 ---
-class: large
+class: medium
 
 # R ?? Python
 
 .pull-left[
 ## Python
 
-general purpose
-od programátorů
-pro programátory
-"blíž železu"
+- general purpose
+- od programátorů
+- pro programátory
+- "blíž železu"
+- celkově rozšířenější
 
 ]
 
 .pull-left[
 ## R
 
-na data
-od statistiků
-používá ho ledaskdo
-méně intuitivní jazyk (ale lepší se to)
+- stavěn na data
+- od statistiků
+- používají ho často neprogramátoři
+- specializovaný
+- méně intuitivní syntax (ale lepší se to)
 
+]
+
+.medium[
+*Obojí zvládne podobné věci + lze kombinovat*
 ]
 
 ---
