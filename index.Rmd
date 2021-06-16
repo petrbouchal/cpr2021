@@ -286,6 +286,8 @@ ggplot(gdta_rij,
 ```
 
 ---
+class: medium
+
 # Další zdroje
 
 - moje předchozí slides k workshopům R - obsahují detailnější koncepční i technický úvod do R
@@ -294,8 +296,8 @@ ggplot(gdta_rij,
 
 - [miniprezentace](https://petrbouchal.xyz/slides/pssau2020-07) k reprodukovatelné datové analýze a využivání českých otevřených dat (statistických, administrativních, geodat)
 - rozcestník dalších zdrojů pro další učení se
+  - [anglický](https://petrbouchal.xyz/czecheval2021/), aktuálnější a doplněný (After the Workshop > Keep Learning)
   - [český](https://petrbouchal.xyz/eval2020/) (Po workshopu > Učte se dál)
-  - [anglický](https://petrbouchal.xyz/czecheval2021/) (After the Workshop > Keep Learning)
 ---
 
 class: inverse, bottom, right, large
